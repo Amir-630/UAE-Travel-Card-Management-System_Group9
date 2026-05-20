@@ -11,14 +11,24 @@ import org.springframework.stereotype.Component;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * Defines and loads all business rules for travel fare calculation into a RuleCollection.
+ * This class encapsulates various strategies for creating rules based on zones and transport types.
+ */
 @Data
 @Component
 @RequiredArgsConstructor
 public class TravelStrategy {
 
+    /**
+     * The collection where all created business rules are stored.
+     */
     @NonNull
     private RuleCollection ruleCollection;
 
+    /**
+     * Strategy for creating a rule for travel anywhere within Zone One.
+     */
     public Consumer<Double> anyWhereInZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
@@ -31,6 +41,9 @@ public class TravelStrategy {
 
     };
 
+    /**
+     * Strategy for creating a rule for travel within any single zone outside of Zone One.
+     */
     public Consumer<Double> anyOneZoneOutsideZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
@@ -42,6 +55,9 @@ public class TravelStrategy {
         ruleCollection.addRules(rule);
     };
 
+    /**
+     * Strategy for creating a rule for travel across any two zones, including Zone One.
+     */
     public Consumer<Double> anyTwoZoneIncludingZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
@@ -55,6 +71,9 @@ public class TravelStrategy {
         ruleCollection.addRules(rule);
     };
 
+    /**
+     * Strategy for creating a rule for travel across any two zones, excluding Zone One.
+     */
     public  Consumer<Double> anyTwoZoneExcludingZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
@@ -66,6 +85,9 @@ public class TravelStrategy {
         ruleCollection.addRules(rule);
     };
 
+    /**
+     * Strategy for creating a rule for travel across any three zones.
+     */
     public Consumer<Double> anyThreeZoneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
@@ -75,6 +97,9 @@ public class TravelStrategy {
         ruleCollection.addRules(rule);
     };
 
+    /**
+     * Strategy for creating a rule for any journey by a specific transport type (e.g., Bus).
+     */
     public BiConsumer<Double, TransportType> anyJourneyByBus = (chargeableAmount, transType) -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
@@ -85,6 +110,12 @@ public class TravelStrategy {
 
     };
 
+    /**
+     * Loads all predefined business rules with their respective fares into the RuleCollection.
+     * This method orchestrates the creation of all rules by invoking the defined strategies.
+     *
+     * @return The populated RuleCollection.
+     */
     public RuleCollection loadAllBusinessRules() {
         anyWhereInZoneOneStrategy.accept(2.50);
         anyOneZoneOutsideZoneOneStrategy.accept(2.00);
