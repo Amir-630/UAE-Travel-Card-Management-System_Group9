@@ -4,7 +4,6 @@ import com.demo.travelcardsystem.entity.Station;
 import com.demo.travelcardsystem.entity.TravelCard;
 import com.demo.travelcardsystem.exception.InvalidCardException;
 import com.demo.travelcardsystem.exception.InvalidDataProvidedException;
-import com.demo.travelcardsystem.exception.InvalidRechargeAmount;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -47,6 +46,10 @@ public class InMemoryCardTransactionRepository {
     public boolean addAllStationsToStationStore(Set<Station> stations) {
         clearStationStore();
         return stationStore.addAll(stations);
+    }
+
+    public Set<Station> getStationStore() {
+        return stationStore;
     }
 
     public void clearStationStore() {
