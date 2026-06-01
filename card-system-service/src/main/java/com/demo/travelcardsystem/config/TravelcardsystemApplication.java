@@ -5,65 +5,53 @@ import com.demo.travelcardsystem.businessrule.TravelStrategy;
 import com.demo.travelcardsystem.constant.Zone;
 import com.demo.travelcardsystem.entity.Station;
 import com.demo.travelcardsystem.entity.TravelCard;
-import com.demo.travelcardsystem.entity.TravelCardObserver;
-import com.demo.travelcardsystem.repository.InMemoryCardTransactionRepository;
+import com.demo.travelcardsystem.repository.StationRepository;
+import com.demo.travelcardsystem.repository.TravelCardRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication(scanBasePackages = {"com.demo.travelcardsystem"})
-public class TravelcardsystemApplication{
+@EnableJpaRepositories(basePackages = "com.demo.travelcardsystem.repository")
+@EntityScan(basePackages = "com.demo.travelcardsystem.entity")
+public class TravelcardsystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TravelcardsystemApplication.class, args);
     }
 
     @Bean
-    public TravelCard getTravelCard(TravelCardObserver travelCardObserver) {
-        TravelCard travelCard = new TravelCard();
-        travelCard.registerObserver(travelCardObserver);
-        return travelCard;
-    }
-
-    @Bean
     public RuleCollection loadAllTravelStrategy(TravelStrategy travelStrategy) {
-       return travelStrategy.loadAllBusinessRules();
+        return travelStrategy.loadAllBusinessRules();
     }
 
     @Bean
-    public Boolean loadAllStation(InMemoryCardTransactionRepository inMemoryCardTransactionRepository) {
-        Set<Station> stations = new HashSet<>();
+    public CommandLineRunner loadInitialData(StationRepository stationRepository, TravelCardRepository travelCardRepository) {
+        return args -> {
+            Set<Station> stations = new HashSet<>();
+            stations.add(new Station("Algubaiba", new HashSet<>(Arrays.asList(Zone.ONE))));
+            stations.add(new Station("Jumeirah", new HashSet<>(Arrays.asList(Zone.ONE, Zone.TWO))));
+            stations.add(new Station("Bur Dubai", new HashSet<>(Arrays.asList(Zone.THREE))));
+            stations.add(new Station("Deirah", new HashSet<>(Arrays.asList(Zone.TWO))));
+            stationRepository.saveAll(stations);
 
-        //ADD Algubaiba
-        stations.add(new Station("Algubaiba", new HashSet<>(Arrays.asList(Zone.ONE))));
-        //ADD Jumeirah
-        stations.add(new Station("Jumeirah", new HashSet<>(Arrays.asList(Zone.ONE, Zone.TWO))));
-        //ADD Bur Dubai
-        stations.add(new Station("Bur Dubai", new HashSet<>(Arrays.asList(Zone.THREE))));
-        //ADD Deirah
-        stations.add(new Station("Deirah", new HashSet<>(Arrays.asList(Zone.TWO))));
+            TravelCard firstTravelCard = new TravelCard();
+            firstTravelCard.setCardNumber("A101");
+            firstTravelCard.setBalance(30);
 
-        return inMemoryCardTransactionRepository.addAllStationsToStationStore(stations);
+            TravelCard secondTravelCard = new TravelCard();
+            secondTravelCard.setCardNumber("B201");
+            secondTravelCard.setBalance(50);
+
+            travelCardRepository.save(firstTravelCard);
+            travelCardRepository.save(secondTravelCard);
+        };
     }
-
-    @Bean
-    public Boolean loadInitialCards(InMemoryCardTransactionRepository inMemoryCardTransactionRepository) {
-        TravelCard firstTravelCard = new TravelCard();
-        firstTravelCard.setCardNumber("A101");
-        firstTravelCard.setBalance(30);
-
-        TravelCard secondTravelCard = new TravelCard();
-        secondTravelCard.setCardNumber("B201");
-        secondTravelCard.setBalance(50);
-
-        inMemoryCardTransactionRepository.registerNewCard(firstTravelCard);
-        inMemoryCardTransactionRepository.registerNewCard(secondTravelCard);
-
-        return true;
-    }
-
-
 }

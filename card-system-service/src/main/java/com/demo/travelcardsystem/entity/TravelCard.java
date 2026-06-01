@@ -1,41 +1,31 @@
 package com.demo.travelcardsystem.entity;
 
-import com.demo.travelcardsystem.businessrule.RuleCollection;
-import com.demo.travelcardsystem.businessrule.TravelStrategy;
-import com.demo.travelcardsystem.service.util.FareCalculator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.demo.travelcardsystem.constant.TransportType;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode
-public  class TravelCard implements Observable {
+@Entity
+public class TravelCard {
 
-    @EqualsAndHashCode.Include
+    @Id
     private String cardNumber;
     private double balance;
-    private Journey currentJourney;
+    private boolean inTransit;
+
+    @ManyToOne
+    @JoinColumn(name = "start_station_id")
+    private Station startStation;
+
+    @Enumerated(EnumType.STRING)
+    private TransportType transportType;
 
     public synchronized void addCredit(double amount) {
-        balance += amount;
+        this.balance += amount;
     }
 
     public synchronized void debitAmount(double amount) {
-        balance -= amount;
-    }
-
-    @Override
-    public void notifyAllObservers() {
-        observerCollection.forEach(observer ->
-            observer.reactOnChange(this)
-        );
-    }
-
-    @Override
-    public void registerObserver(Observer observer) {
-        observerCollection.add(observer);
+        this.balance -= amount;
     }
 }

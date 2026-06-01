@@ -9,18 +9,18 @@ import java.util.function.Function;
 
 @Component
 public class TravelCardConverter {
+    private TravelCardConverter() {
+        /* This utility class should not be instantiated */
+        //travelCard2TravelCardResponseConverter
+    }
 
-    public Function<TravelCard, TravelCardResponse> travelCard2TravelCardResponseConverter = travelCard -> {
+
+    public static final  Function<TravelCard, TravelCardResponse> TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION= travelCard -> {
         TravelCardResponse travelCardResponse = new TravelCardResponse();
         travelCardResponse.setCardNumber(travelCard.getCardNumber());
         travelCardResponse.setBalance(travelCard.getBalance());
-        if(null != travelCard.getCurrentJourney()) {
-            travelCardResponse.setTransportType(travelCard.getCurrentJourney().getTransportType());
-        }
-
-        //if current journey is not null mean card is in-transit
-        travelCardResponse.setInTransit(travelCard.getCurrentJourney() != null);
-
+        travelCardResponse.setInTransit(travelCard.isInTransit());
+        travelCardResponse.setTransportType(travelCard.getTransportType());
         return travelCardResponse;
     };
 }
