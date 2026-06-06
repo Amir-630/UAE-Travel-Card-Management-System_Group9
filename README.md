@@ -8,6 +8,7 @@ The UAE Travel Card Management System is a Spring Boot-based backend service des
 *   **Balance Management:** Recharge cards and retrieve current balances.
 *   **Journey Processing (Swipe):** A unified endpoint to handle both check-ins (starting a journey) and check-outs (ending a journey).
 *   **Dynamic Fare Calculation:** A robust rules engine that calculates fares based on the transport type (Bus/Train) and the zones travelled between.
+*   **API Documentation:** Interactive API documentation is provided via Swagger UI.
 *   **Data Persistence:** Utilizes an H2 in-memory database with Spring Data JPA for storing card details and station configurations.
 *   **Containerization:** Fully containerized with a multi-stage Dockerfile for easy and consistent deployment.
 *   **Cross-Origin Resource Sharing (CORS):** Fully configured to accept requests from frontend applications hosted on different domains.
@@ -17,10 +18,21 @@ The UAE Travel Card Management System is a Spring Boot-based backend service des
 *   **Spring Boot (2.6.2):** Core framework for dependency injection, embedded server (Tomcat), and auto-configuration.
 *   **Spring Web:** For building RESTful APIs.
 *   **Spring Data JPA:** For database interactions and ORM.
+*   **SpringDoc OpenAPI (Swagger):** For generating interactive API documentation.
 *   **H2 Database:** In-memory relational database for data persistence.
 *   **Docker:** For containerization and deployment.
 *   **Lombok:** To reduce boilerplate code (Getters, Setters, Constructors).
 *   **Maven:** Project build and dependency management.
+
+---
+
+## API Documentation (Swagger)
+
+Once the application is running, the interactive Swagger UI can be accessed at:
+**http://localhost:8080/swagger-ui.html**
+
+The OpenAPI specification in JSON format is available at:
+**http://localhost:8080/v3/api-docs**
 
 ---
 
