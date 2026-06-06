@@ -49,7 +49,7 @@ public class TravellerService {
         travelCard.setBalance(cardRegistrationRequest.getBalance());
 
         TravelCard savedCard = travelCardRepository.save(travelCard);
-        return  TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(savedCard);
+        return TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(savedCard);
     }
 
     @Transactional
@@ -73,7 +73,7 @@ public class TravellerService {
 
         List<TravelCard> savedCards = travelCardRepository.saveAll(travelCards);
         return savedCards.stream()
-                .map( TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION)
+                .map(TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION)
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +90,7 @@ public class TravellerService {
                 .orElseThrow(() -> new InvalidCardException(INVALID_CARD_EXC_MESSAGE));
         travelCard.addCredit(rechargeAmount);
         TravelCard savedCard = travelCardRepository.save(travelCard);
-        return  TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(savedCard);
+        return TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(savedCard);
     }
 
     @Transactional
@@ -135,7 +135,7 @@ public class TravellerService {
         }
 
         TravelCard savedCard = travelCardRepository.save(travelCard);
-        return  TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(savedCard);
+        return TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(savedCard);
     }
 
 
@@ -143,7 +143,7 @@ public class TravellerService {
     public TravelCardResponse checkCardDetail(String cardNumber) {
         TravelCard travelCard = travelCardRepository.findById(cardNumber)
                 .orElseThrow(() -> new InvalidCardException(INVALID_CARD_EXC_MESSAGE));
-        return  TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(travelCard);
+        return TravelCardConverter.TRAVEL_CARD_TRAVEL_CARD_RESPONSE_FUNCTION.apply(travelCard);
     }
 
     public List<String> fetchAllCard() {

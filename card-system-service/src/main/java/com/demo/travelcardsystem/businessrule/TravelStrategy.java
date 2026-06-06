@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 
 /**
  * Defines and loads all business rules for travel fare calculation into a RuleCollection.
@@ -29,7 +29,7 @@ public class TravelStrategy {
     /**
      * Strategy for creating a rule for travel anywhere within Zone One.
      */
-    public Consumer<Double> anyWhereInZoneOneStrategy = chargeableAmount -> {
+    private final DoubleConsumer anyWhereInZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
 
@@ -44,7 +44,7 @@ public class TravelStrategy {
     /**
      * Strategy for creating a rule for travel within any single zone outside of Zone One.
      */
-    public Consumer<Double> anyOneZoneOutsideZoneOneStrategy = chargeableAmount -> {
+    private final DoubleConsumer anyOneZoneOutsideZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
 
@@ -58,7 +58,7 @@ public class TravelStrategy {
     /**
      * Strategy for creating a rule for travel across any two zones, including Zone One.
      */
-    public Consumer<Double> anyTwoZoneIncludingZoneOneStrategy = chargeableAmount -> {
+    private final DoubleConsumer anyTwoZoneIncludingZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
 
@@ -74,7 +74,7 @@ public class TravelStrategy {
     /**
      * Strategy for creating a rule for travel across any two zones, excluding Zone One.
      */
-    public  Consumer<Double> anyTwoZoneExcludingZoneOneStrategy = chargeableAmount -> {
+    private final DoubleConsumer anyTwoZoneExcludingZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
 
@@ -88,7 +88,7 @@ public class TravelStrategy {
     /**
      * Strategy for creating a rule for travel across any three zones.
      */
-    public Consumer<Double> anyThreeZoneStrategy = chargeableAmount -> {
+    private final DoubleConsumer anyThreeZoneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
 
@@ -100,7 +100,7 @@ public class TravelStrategy {
     /**
      * Strategy for creating a rule for any journey by a specific transport type (e.g., Bus).
      */
-    public BiConsumer<Double, TransportType> anyJourneyByBus = (chargeableAmount, transType) -> {
+    private final BiConsumer<Double, TransportType> anyJourneyByBus = (chargeableAmount, transType) -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
         rule.setTransportType(transType);
