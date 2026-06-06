@@ -1,0 +1,12 @@
+.idea
+target
+*.log
+.DS_Store
+.mvn
+mvnw
+mvnw.cmd
+.gitignore
+Dockerfile
+.dockerignore
+README.md
+API_UPDATES_REPORT.md

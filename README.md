@@ -9,6 +9,7 @@ The UAE Travel Card Management System is a Spring Boot-based backend service des
 *   **Journey Processing (Swipe):** A unified endpoint to handle both check-ins (starting a journey) and check-outs (ending a journey).
 *   **Dynamic Fare Calculation:** A robust rules engine that calculates fares based on the transport type (Bus/Train) and the zones travelled between.
 *   **Data Persistence:** Utilizes an H2 in-memory database with Spring Data JPA for storing card details and station configurations.
+*   **Containerization:** Fully containerized with a multi-stage Dockerfile for easy and consistent deployment.
 *   **Cross-Origin Resource Sharing (CORS):** Fully configured to accept requests from frontend applications hosted on different domains.
 
 ## Technologies Used
@@ -17,6 +18,7 @@ The UAE Travel Card Management System is a Spring Boot-based backend service des
 *   **Spring Web:** For building RESTful APIs.
 *   **Spring Data JPA:** For database interactions and ORM.
 *   **H2 Database:** In-memory relational database for data persistence.
+*   **Docker:** For containerization and deployment.
 *   **Lombok:** To reduce boilerplate code (Getters, Setters, Constructors).
 *   **Maven:** Project build and dependency management.
 
@@ -144,11 +146,26 @@ Notable configurations:
 
 ## How to Run
 
+### Locally with Maven
 1.  Ensure you have Java 8 and Maven installed.
 2.  Navigate to the root directory of the project (`UAE-Travel-Card-Management-System_Group9/card-system-service`).
-3.  Execute the following Maven command to run the Spring Boot application:
+3.  Execute the following Maven command:
     ```bash
     ./mvnw spring-boot:run
     ```
 4.  The application will start on port 8080.
-5.  Initial data (Stations and two test cards: `A101` and `B201`) is automatically loaded via the `CommandLineRunner` in `TravelcardsystemApplication.java`.
+
+### Using Docker
+1.  Ensure you have Docker installed and running.
+2.  Navigate to the root directory of the project (`UAE-Travel-Card-Management-System_Group9/card-system-service`).
+3.  **Build the Docker image:**
+    ```bash
+    docker build -t travel-card-system .
+    ```
+4.  **Run the Docker container:**
+    ```bash
+    docker run -p 8080:8080 travel-card-system
+    ```
+5.  The application will be accessible at `http://localhost:8080`.
+
+Initial data (Stations and two test cards: `A101` and `B201`) is automatically loaded on startup in both run modes.
