@@ -15,7 +15,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create the final lightweight image
-FROM openjdk:8-jre-slim
+FROM eclipse-temurin:8-jre-alpine
 
 # Set the working directory
 WORKDIR /app
